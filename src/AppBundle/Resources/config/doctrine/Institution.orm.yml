@@ -1,0 +1,189 @@
+AppBundle\Entity\Institution:
+    type: entity
+    table: institution
+    repositoryClass: AppBundle\Repository\InstitutionRepository
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        codSiiir:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+            column: cod_siiir
+        codSirues:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+            column: cod_sirues
+        denumireScurta:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+            column: denumire_scurta
+        denumire:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+        localitate:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+        localitateSuperioara:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+            column: localitate_superioara
+        strada:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+        numar:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+        codPostal:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+            column: cod_postal
+        statut:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+        tipUnitate:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+            column: tip_unitate
+        unitatePj:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+            column: unitate_pj
+        modFunctionare:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+            column: mod_functionare
+        formaFinantare:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+            column: forma_finantare
+        formaProprietate:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+            column: forma_proprietate
+        codFiscal:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+            column: cod_fiscal
+        judet:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+        dataModificarii:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+            column: data_modificarii
+        dataAcreditarii:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+            column: data_acreditarii
+        dataIntrariiInVigoare:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+            column: data_intrarii_in_vigoare
+        dataInchiderii:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+            column: data_inchiderii
+        telefon:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+        fax:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+        email:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+        adresa_concatenata:
+            type: string
+            nullable: true
+            length: 255
+        geo_json:
+            type: json_array
+            nullable: true
+        lat:
+            type: string
+            nullable: true
+            length: 255
+        lng:
+            type: string
+            nullable: true
+            length: 255
+    lifecycleCallbacks: {  }
