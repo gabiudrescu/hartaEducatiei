@@ -3,8 +3,14 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Institution;
+use Doctrine\Common\Collections\ArrayCollection;
+use GeoJson\Feature\Feature;
+use GeoJson\Feature\FeatureCollection;
+use GuzzleHttp\Pool;
+use Psr\Http\Message\ResponseInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -12,77 +18,38 @@ class DefaultController extends Controller
 {
 
     /**
-     * @Route("/setLangLong", name="setLangLong")
-     * @param Request $request
-     */
-    public function setLangLongAction(Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $repo = $em->getRepository('AppBundle:Institution');
-
-        /**
-         * @var Institution[] $collection
-         */
-        $collection = $repo->findWithGeo(true);
-
-        foreach ($collection as $key => $item)
-        {
-            $json = $item->getGeoJson();
-
-            $json = json_decode($json, true);
-
-            if ("OK" === $json['status']){
-
-                $item->setLat((string) $json['results'][0]['geometry']['location']['lat']);
-                $item->setLng((string) $json['results'][0]['geometry']['location']['lng']);
-
-                $em->persist($item);
-            }
-        }
-        $em->flush();
-    }
-
-    /**
      * @Route("/", name="homepage")
      */
     public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        $total = $this->getDoctrine()->getRepository('AppBundle:Institution')->countTotal();
+        $geocodate = $this->getDoctrine()->getRepository('AppBundle:Institution')->countGeocodate();
+        $coordonate = $this->getDoctrine()->getRepository('AppBundle:Institution')->countCoordonate();
+        $neprocesate = $this->getDoctrine()->getRepository('AppBundle:Institution')->countGeocodateNeprocesate();
+        $faraGeoCodare = $this->getDoctrine()->getRepository('AppBundle:Institution')->findWithGeo(false, 1000000, 0, true);
 
-        $repo = $em->getRepository('AppBundle:Institution');
+        return $this->render('default/index.html.twig', [
+            'total' => $total,
+            'geocodate' => $geocodate,
+            'coordonate' => $coordonate,
+            'neprocesate' => $neprocesate,
+            'faraGeo' => $faraGeoCodare
+        ]);
+    }
 
-        $collection = $repo->findWithGeo(false);
+    /**
+     * @Route("/geojson/{id}", name="geojson")
+     * @param Institution $institution
+     */
+    public function geoJSON(Institution $institution)
+    {
+        $array = $this->get('serializer')->normalize($institution);
+        $point = new \GeoJson\Geometry\Point([round($institution->getLat(),5), round($institution->getLng(),5)]);
 
-        return new StreamedResponse(function () use ($em, $collection){
-            foreach ($collection as $key => $institution)
-            {
-                $getJson = function ($address){
-                    $url = sprintf("http://maps.google.com/maps/api/geocode/json?address=%s", urlencode($address));
-                    $json = file_get_contents($url);
+        $feature = new Feature($point, $array, $institution->getCodSiiir());
 
-                    echo $json;
-                    echo "<br>";
-                    echo "<br>";
-                    return $json;
-                };
+        $collection = new FeatureCollection([$feature, $feature]);
 
-                $institution->setGeoJson($getJson($institution->getAdresaConcatenata()));
-
-                $em->persist($institution);
-
-                echo $institution->getId();
-                echo "<br>";
-                sleep(1);
-
-                if ($key % 10 === 0)
-                {
-                    $em->flush();
-                    echo "<hr>";
-                    echo "<br>";
-                    echo "<br>";
-                }
-            }
-        });
+        return new JsonResponse($collection);
     }
 }

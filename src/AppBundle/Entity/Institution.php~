@@ -834,4 +834,33 @@ class Institution
     {
         return $this->long;
     }
+    /**
+     * @var string
+     */
+    private $lng;
+
+
+    /**
+     * Set lng
+     *
+     * @param string $lng
+     *
+     * @return Institution
+     */
+    public function setLng($lng)
+    {
+        $this->lng = $lng;
+
+        return $this;
+    }
+
+    /**
+     * Get lng
+     *
+     * @return string
+     */
+    public function getLng()
+    {
+        return $this->lng;
+    }
 }

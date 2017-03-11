@@ -1,9 +1,24 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {% for item in data %}
-        {{ dump(item) }}
-    {% endfor %}
+    <table>
+        <tr>
+            <td>Scoli in total:</td>
+            <td>{{ total }}</td>
+        </tr>
+        <tr>
+            <td>Scoli geocodate:</td>
+            <td>{{ geocodate }} din care {{ neprocesate }} scoli neprocesate</td>
+        </tr>
+        <tr>
+            <td>Scoli cu coordonate:</td>
+            <td>{{ coordonate }}</td>
+        </tr>
+        <tr>
+            <td>Fara coordonate:</td>
+            <td>{{ total - coordonate }} din care {{ faraGeo }} fara json</td>
+        </tr>
+    </table>
 {% endblock %}
 
 {% block stylesheets %}

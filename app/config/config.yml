@@ -18,7 +18,7 @@ framework:
     form:            ~
     csrf_protection: ~
     validation:      { enable_annotations: true }
-    #serializer:      { enable_annotations: true }
+    serializer:      { enable_annotations: true }
     templating:
         engines: ['twig']
     default_locale:  "%locale%"
@@ -69,6 +69,15 @@ swiftmailer:
     password:  "%mailer_password%"
     spool:     { type: memory }
 
-#easy_admin:
-#    entities:
-#        - AppBundle\Entity\Institution
+easy_admin:
+    entities:
+        - AppBundle\Entity\Institution
+
+csa_guzzle:
+    logger: true
+    profiler: '%kernel.debug%'
+    clients:
+        geocoding:
+            config: # you can specify the options as in http://docs.guzzlephp.org/en/latest/quickstart.html#creating-a-client
+                base_uri: "https://maps.google.com/maps/api/geocode/json"
+                timeout: 30.0

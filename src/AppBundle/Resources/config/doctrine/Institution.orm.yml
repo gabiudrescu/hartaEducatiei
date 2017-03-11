@@ -186,4 +186,8 @@ AppBundle\Entity\Institution:
             type: string
             nullable: true
             length: 255
-    lifecycleCallbacks: {  }
+        updatedAt:
+            type: datetime
+            nullable: true
+    lifecycleCallbacks:
+        preUpdate: [setUpdatedAtValue]
